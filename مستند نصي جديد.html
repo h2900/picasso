@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>soon..</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- أيقونات Font Awesome -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* لمنع تمرير الصفحة */
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px; /* تقليل ارتفاع شريط العنوان */
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            position: relative; /* لجعل اللوغو يتداخل مع الهيدر */
+        }
+
+        .logo {
+            position: absolute;
+            left: 20px;
+            top: 10px;
+            height: 80px; /* ارتفاع اللوغو */
+            width: 80px; /* عرض اللوغو */
+            border-radius: 50%; /* شكل دائري */
+            cursor: pointer;
+            transition: transform 0.3s; /* تأثير عند وضع الفأرة */
+        }
+
+        .logo:hover {
+            transform: scale(1.1); /* تكبير اللوغو عند التحويم */
+        }
+
+        nav {
+            margin: 10px 0; /* تقليل المسافة بين العناصر */
+        }
+
+        nav button {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px; /* تقليل الحشوة */
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            font-size: 14px; /* تقليل حجم الخط */
+        }
+
+        nav button:hover {
+            background: #777;
+            transform: scale(1.05);
+        }
+
+        .section {
+            display: none;
+            padding: 20px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ffcc00; /* لون جذاب */
+            margin-bottom: 20px;
+        }
+
+        .main-background {
+            background: url('background.jpg') no-repeat center center; /* خلفية يمكن تغييرها */
+            background-size: cover;
+            padding: 40px 0; /* إضافة مساحة حول المحتوى */
+            position: relative;
+        }
+
+        .main-content {
+            position: relative;
+            z-index: 1; /* لجعل المحتوى فوق تأثير الثلج */
+        }
+
+        .snow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* لجعل الثلج غير قابل للتفاعل */
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: #222;
+            color: white;
+            width: calc(33% - 20px);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .card p {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            position: relative;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* توزيع العناصر في الفوتر */
+        }
+
+        .footer-logo {
+            height: 40px; /* ارتفاع اللوغو في الفوتر */
+            margin-left: 10px;
+        }
+
+        .settings {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .settings div {
+            cursor: pointer;
+            font-size: 20px;
+            margin: 5px 0;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        .settings div:hover {
+            color: #ffcc00;
+        }
+
+        .social-icons {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #ffcc00;
+        }
+
+        .footer-text {
+            flex-grow: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="picasso.png" alt="لوغو" class="logo" onclick="showSection('main')"> <!-- لوغو -->
+        <h1>موقعي الجذاب</h1>
+        <nav>
+            <button onclick="showSection('main')"><i class="fas fa-home"></i> الرئيسية</button>
+            <button onclick="showSection('home')"><i class="fas fa-newspaper"></i> أخبار</button>
+            <button onclick="showSection('videos')"><i class="fas fa-video"></i> فيديوهات</button>
+            <button onclick="showSection('images')"><i class="fas fa-image"></i> صور</button>
+            <button onclick="showSection('results')"><i class="fas fa-trophy"></i> نتائج</button>
+        </nav>
+        <div class="settings">
+            <div onclick="toggleSettings()">⚙️ إعدادات الثلج</div>
+            <div id="snowSpeedControl" style="display:none;">
+                <label for="snowSpeed">سرعة الثلج:</label>
+                <input type="range" id="snowSpeed" min="1" max="10" value="5" onchange="updateSnowSpeed(this.value)">
+            </div>
+            <div id="snowSizeControl" style="display:none;">
+                <label for="snowSize">حجم الثلج:</label>
+                <input type="range" id="snowSize" min="10" max="50" value="20" onchange="updateSnowSize(this.value)">
+            </div>
+            <div>
+                <button onclick="toggleSnow()">تبديل الثلج</button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section id="main" class="section active main-background">
+            <div class="main-content">
+                
+            <div class="main-content">
+                <h2>الرئيسية</h2>
+                <p class="main-description">مرحبًا بكم في موقعنا! هنا تجدون أحدث الأخبار، الفيديوهات، والصور. تابعونا لمزيد من المحتوى المثير!</p>
+                
+                <div class="card-container">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" alt="صورة 1">
+                        <p class="card-title">عنوان البطاقة 1</p>
+                        <p>وصف البطاقة 1. محتوى مثير للاهتمام.</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" alt="صورة 2">
+                        <p class="card-title">عنوان البطاقة 2</p>
+                        <p>وصف البطاقة 2. محتوى مثير للاهتمام.</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" alt="صورة 3">
+                        <p class="card-title">عنوان البطاقة 3</p>
+                        <p>وصف البطاقة 3. محتوى مثير للاهتمام.</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/300" alt="صورة 4">
+                        <p class="card-title">عنوان البطاقة 4</p>
+                        <p>وصف البطاقة 4. محتوى مثير للاهتمام.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="snow" id="snowContainer"></div>
+        </section>
+
+        <section id="home" class="section">
+            <h2>أخبار</h2>
+            <div class="card-container" id="newsContainer">
+                <!-- بطاقات الأخبار -->
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" alt="خبر 1">
+                    <p class="card-title">عنوان الخبر 1</p>
+                    <p>وصف الخبر 1.</p>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" alt="خبر 2">
+                    <p class="card-title">عنوان الخبر 2</p>
+                    <p>وصف الخبر 2.</p>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" alt="خبر 3">
+                    <p class="card-title">عنوان الخبر 3</p>
+                    <p>وصف الخبر 3.</p>
+                </div>
+                <div class="card">
+                    <img src="https://via.placeholder.com/150" alt="خبر 4">
+                    <p class="card-title">عنوان الخبر 4</p>
+                    <p>وصف الخبر 4.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="videos" class="section">
+            <h2>فيديوهات</h2>
+            <div class="card-container" id="videoContainer">
+                <!-- بطاقات الفيديو -->
+                <div class="card">
+                    <a href="https://www.youtube.com/watch?v=example1" target="_blank">
+                        <img src="https://img.youtube.com/vi/example1/0.jpg" alt="فيديو 1">
+                        <p class="card-title">عنوان الفيديو 1</p>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://www.youtube.com/watch?v=example2" target="_blank">
+                        <img src="https://img.youtube.com/vi/example2/0.jpg" alt="فيديو 2">
+                        <p class="card-title">عنوان الفيديو 2</p>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://www.youtube.com/watch?v=example3" target="_blank">
+                        <img src="https://img.youtube.com/vi/example3/0.jpg" alt="فيديو 3">
+                        <p class="card-title">عنوان الفيديو 3</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="images" class="section">
+            <h2>صور</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="image1.jpg" alt="صورة 1">
+                    <p>وصف الصورة 1</p>
+                </div>
+                <div class="card">
+                    <img src="image2.jpg" alt="صورة 2">
+                    <p>وصف الصورة 2</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="section">
+            <h2>نتائج</h2>
+            <div class="card-container">
+                <div class="card">
+                    <img src="result1.jpg" alt="نتيجة 1">
+                </div>
+                <div class="card">
+                    <img src="result2.jpg" alt="نتيجة 2">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-text">حقوق الطبع والنشر &copy; 2024. جميع الحقوق محفوظة.</div>
+        <img src="picasso.png" alt="لوغو الفوتر" class="footer-logo"> <!-- لوغو الفوتر -->
+        <div class="social-icons">
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/2a9al/?locale=ar_AR" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.tiktok.com/@lahcen_d.keeler" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        let snowActive = true;
+        let snowflakes = [];
+        let snowSpeed = 5;
+        let snowSize = 20;
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // تأثير تساقط الثلج
+        function createSnowflakes() {
+            const snowContainer = document.getElementById('snowContainer');
+            for (let i = 0; i < 100; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄'; // رمز الثلج
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.fontSize = Math.random() * snowSize + 10 + 'px';
+                snowflake.style.animationDuration = (Math.random() * (10 - snowSpeed) + snowSpeed) + 's';
+                snowflake.style.opacity = Math.random();
+                snowContainer.appendChild(snowflake);
+                snowflakes.push(snowflake);
+            }
+        }
+
+        function updateSnowSpeed(value) {
+            snowSpeed = value;
+            snowflakes.forEach(snowflake => {
+                snowflake.style.animationDuration = (Math.random() * (10 - snowSpeed) + snowSpeed) + 's';
+            });
+        }
+
+        function updateSnowSize(value) {
+            snowSize = value;
+            snowflakes.forEach(snowflake => {
+                snowflake.style.fontSize = Math.random() * snowSize + 10 + 'px';
+            });
+        }
+
+        function toggleSnow() {
+            const snowContainer = document.getElementById('snowContainer');
+            snowActive = !snowActive;
+            snowContainer.style.display = snowActive ? 'block' : 'none';
+        }
+
+        function toggleSettings() {
+            const controls = document.querySelectorAll('#snowSpeedControl, #snowSizeControl');
+            controls.forEach(control => {
+                control.style.display = control.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+
+        document.addEventListener('wheel', function(event) {
+            // تحريك الصفحة بناءً على حركة عجلة الفأرة
+            window.scrollBy(0, event.deltaY);
+        });
+
+        createSnowflakes();
+    </script>
+</body>
+</html>
